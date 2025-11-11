@@ -1,0 +1,143 @@
+<form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <label for="nombre">Nombre Completo:</label>
+    <input type="text" id="nombre" formControlName="nombreCompleto">
+    
+    <div *ngIf="f['nombreCompleto'].invalid && (f['nombreCompleto'].dirty || f['nombreCompleto'].touched)" class="error-message">
+      <div *ngIf="f['nombreCompleto'].errors?.['required']">
+        El nombre completo es obligatorio.
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="cedula">Número de Cédula:</label>
+    <input type="text" id="cedula" formControlName="numeroCedula">
+    
+    <div *ngIf="f['numeroCedula'].invalid && (f['numeroCedula'].dirty || f['numeroCedula'].touched)" class="error-message">
+      <div *ngIf="f['numeroCedula'].errors?.['required']">
+        El número de cédula es obligatorio.
+      </div>
+      <div *ngIf="f['numeroCedula'].errors?.['pattern']">
+        El formato no es válido (deben ser 10 dígitos).
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="fecha">Fecha de Nacimiento:</label>
+    <input type="date" id="fecha" formControlName="fechaNacimiento">
+    
+    <div *ngIf="f['fechaNacimiento'].invalid && (f['fechaNacimiento'].dirty || f['fechaNacimiento'].touched)" class="error-message">
+      <div *ngIf="f['fechaNacimiento'].errors?.['required']">
+        La fecha de nacimiento es obligatoria.
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="correo">Correo Electrónico:</label>
+    <input type="email" id="correo" formControlName="correoElectronico">
+    
+    <div *ngIf="f['correoElectronico'].invalid && (f['correoElectronico'].dirty || f['correoElectronico'].touched)" class="error-message">
+      <div *ngIf="f['correoElectronico'].errors?.['required']">
+        El correo es obligatorio.
+      </div>
+      <div *ngIf="f['correoElectronico'].errors?.['email']">
+        El formato del correo no es válido.
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="pais">País de Residencia:</label>
+    <select id="pais" formControlName="paisResidencia">
+      <option value="" disabled>Seleccione un país...</option>
+      <option *ngFor="let pais of paises" [value]="pais">{{ pais }}</option>
+    </select>
+    
+    <div *ngIf="f['paisResidencia'].invalid && (f['paisResidencia'].dirty || f['paisResidencia'].touched)" class="error-message">
+      <div *ngIf="f['paisResidencia'].errors?.['required']">
+        Debe seleccionar un país.
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>Sexo:</label>
+    <label>
+      <input type="radio" value="masculino" formControlName="sexo"> Masculino
+    </label>
+    <label>
+      <input type="radio" value="femenino" formControlName="sexo"> Femenino
+    </label>
+    <label>
+      <input type="radio" value="otro" formControlName="sexo"> Otro
+    </label>
+    
+    <div *ngIf="f['sexo'].invalid && (f['sexo'].dirty || f['sexo'].touched)" class="error-message">
+      <div *ngIf="f['sexo'].errors?.['required']">
+        Debe seleccionar un sexo.
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="bio">Biografía (min 100, max 1000):</label>
+    <textarea id="bio" rows="5" formControlName="biografia"></textarea>
+    
+    <div *ngIf="f['biografia'].invalid && (f['biografia'].dirty || f['biografia'].touched)" class="error-message">
+      <div *ngIf="f['biografia'].errors?.['required']">
+        La biografía es obligatoria.
+      </div>
+      <div *ngIf="f['biografia'].errors?.['minlength']">
+        La biografía debe tener al menos 100 caracteres.
+      </div>
+      <div *ngIf="f['biografia'].errors?.['maxlength']">
+        La biografía no debe exceder los 1000 caracteres.
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>
+      <input type="checkbox" formControlName="terminos">
+      Acepto los términos y condiciones
+    </label>
+    
+    <div *ngIf="f['terminos'].invalid && (f['terminos'].dirty || f['terminos'].touched)" class="error-message">
+      <div *ngIf="f['terminos'].errors?.['requiredTrue']">
+        Debe aceptar los términos y condiciones.
+      </div>
+    </div>
+  </div>
+  
+  <hr>
+  
+  <div>
+    <ngx-recaptcha2 
+      [siteKey]="recaptchaSiteKey" 
+      formControlName="recaptcha">
+    </ngx-recaptcha2>
+    
+    <div *ngIf="f['recaptcha'].invalid && (f['recaptcha'].dirty || f['recaptcha'].touched)"
+         class="error-message">
+      <div *ngIf="f['recaptcha'].errors?.[ 'required' ]">
+        Por favor, verifica que no eres un robot.
+      </div>
+    </div>
+  </div>
+
+
+  
+  <hr>
+
+  <div>
+    <button type="submit" [disabled]="registroForm.invalid">
+      Enviar Registro
+    </button>
+  </div>
+
+</form>
+
